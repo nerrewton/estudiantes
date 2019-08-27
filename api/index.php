@@ -4,8 +4,7 @@
  * Date: 2019-08-26
  * Content: Enrutador de peticiones
  */
-define('BASE_URL', '/proyectos_react/estudiantes_app/api/index.php');
-include_once './controllers/EstudianteController.class.php';
+include_once('./controllers/EstudianteController.class.php');
 $rutas = array(
     '' => ''
 );
@@ -13,10 +12,9 @@ $rutas = array(
 try{
     $metodo = $_SERVER["REQUEST_METHOD"];
     $ruta = $_SERVER['REQUEST_URI'];
+    $ruta = substr( $ruta, strpos( $ruta, "/api") +  4 );
     $parametros = $_REQUEST;
-    print_r( $ruta );
-    echo "<br/>";
-    print_r( $parametros );
+    
     if( isset($metodo) )
     {
         switch ( $metodo ) 
@@ -24,13 +22,13 @@ try{
             case 'GET': //Rutas get
                 //Rutas Estudiantes
                 $EstudianteController = new EstudianteController();
-                if( $ruta == BASE_URL . "/estudiante" ){
+                if( $ruta == "/estudiante" ){
                     $EstudianteController->obtener_estudiantes( $parametros );
                 }
                 //Rutas Cursos
 
                 //Rutas Notas
-                echo "get";
+                //echo "get";
                 break;
             case 'POST': //Rutas post					
                 echo "post";

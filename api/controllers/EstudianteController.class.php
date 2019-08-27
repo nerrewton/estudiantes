@@ -4,18 +4,20 @@
  * Date: 2019-08-26
  * Content: Controlador del modelo Estudiante
  */
-include_once '../models/Estudiante.class.php';
-include_once './RespuestaHttpController.class.php';
+ini_set("display_errors", true);
+include_once('./models/Estudiante.class.php');
+include_once('./controllers/RespuestaHttpController.class.php');
 class EstudianteController extends RespuestaHttpController
 {
     public function obtener_estudiantes( $req )
     {
         $objEstudiante = new Estudiante();
         $estudiantes = $objEstudiante->obtener_todos();
-        
-        if( !isset($estudiantes) ) return $this->devolver( 400, array("mensaje" => "No fue posible obtener resultados") );
+        print_r($estudiantes);
+        print_r("hola");
+        if( !isset($estudiantes) ) $this->devolver( 400, array("mensaje" => "No fue posible obtener resultados") );
 
-        return $this->devolver( $estudiantes );
+        $this->devolver( $estudiantes );
     }
 
     public function obtener_unico( $req )
