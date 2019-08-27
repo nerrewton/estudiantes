@@ -13,11 +13,10 @@ class EstudianteController extends RespuestaHttpController
     {
         $objEstudiante = new Estudiante();
         $estudiantes = $objEstudiante->obtener_todos();
-        print_r($estudiantes);
-        print_r("hola");
+
         if( !isset($estudiantes) ) $this->devolver( 400, array("mensaje" => "No fue posible obtener resultados") );
 
-        $this->devolver( $estudiantes );
+        $this->devolver( 200, $estudiantes );
     }
 
     public function obtener_unico( $req )
@@ -27,8 +26,9 @@ class EstudianteController extends RespuestaHttpController
         $objEstudiante = new Estudiante();
         $estudiante = $objEstudiante->obtener_uno( $id );
 
-        if( !isset($estudiante) ) return $this->devolver( 400, array("mensaje" => "No fue posible obtener resultados") );
+        if( !$estudiante ) return $this->devolver( 400, array("mensaje" => "No fue posible obtener resultados") );
 
-        return $this->devolver( $estudiante );
+        unset( $estudiante->conexion );
+        return $this->devolver(200, $estudiante );
     }
 }

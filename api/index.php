@@ -5,32 +5,48 @@
  * Content: Enrutador de peticiones
  */
 include_once('./controllers/EstudianteController.class.php');
-$rutas = array(
-    '' => ''
-);
+include_once('./controllers/CursoController.class.php');
+include_once('./controllers/NotaController.class.php');
 
 try{
     $metodo = $_SERVER["REQUEST_METHOD"];
     $ruta = $_SERVER['REQUEST_URI'];
     $ruta = substr( $ruta, strpos( $ruta, "/api") +  4 );
-    $parametros = $_REQUEST;
     
     if( isset($metodo) )
     {
+        $parametros = json_decode( file_get_contents("php://input") );
         switch ( $metodo ) 
         {
             case 'GET': //Rutas get
                 //Rutas Estudiantes
                 $EstudianteController = new EstudianteController();
-                if( $ruta == "/estudiante" ){
-                    $EstudianteController->obtener_estudiantes( $parametros );
+                if( $ruta == "/estudiante" ){ //ruta: /estudiante/
+                    return $EstudianteController->obtener_estudiantes( $parametros );
                 }
+                else if ( preg_match('/^\/(estudiante)\/[\d]+$/', $ruta) )//ruta: /estudiante/:id
+                {
+                    $arrayRuta = explode("/", $ruta);
+                    $parametros->id = $arrayRuta[ count($arrayRuta) - 1 ];
+                    return $EstudianteController->obtener_unico( $parametros );
+                }
+
                 //Rutas Cursos
+                $CursoController = new CursoController();
+                if( $ruta == "/curso" ){ //ruta: /curso/
+                    return $CursoController->obtener_cursos( $parametros );
+                }
+                else if ( preg_match('/^\/(curso)\/[\d]+$/', $ruta) )//ruta: /curso/:id
+                {
+                    $arrayRuta = explode("/", $ruta);
+                    $parametros->id = $arrayRuta[ count($arrayRuta) - 1 ];
+                    return $CursoController->obtener_unico( $parametros );
+                }
 
                 //Rutas Notas
                 //echo "get";
                 break;
-            case 'POST': //Rutas post					
+            case 'POST': //Rutas post	
                 echo "post";
                 break;
             case 'PUT': //Rutas put					
