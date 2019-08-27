@@ -16,6 +16,9 @@ try{
     if( isset($metodo) )
     {
         $parametros = json_decode( file_get_contents("php://input") );
+        $arrayRuta = explode("/", $ruta);
+        $parametros->id = $arrayRuta[ count($arrayRuta) - 1 ];
+
         switch ( $metodo ) 
         {
             case 'GET': //Rutas get
@@ -25,9 +28,7 @@ try{
                     return $EstudianteController->obtener_estudiantes( $parametros );
                 }
                 else if ( preg_match('/^\/(estudiante)\/[\d]+$/', $ruta) )//ruta: /estudiante/:id
-                {
-                    $arrayRuta = explode("/", $ruta);
-                    $parametros->id = $arrayRuta[ count($arrayRuta) - 1 ];
+                {                    
                     return $EstudianteController->obtener_unico( $parametros );
                 }
 
@@ -38,12 +39,19 @@ try{
                 }
                 else if ( preg_match('/^\/(curso)\/[\d]+$/', $ruta) )//ruta: /curso/:id
                 {
-                    $arrayRuta = explode("/", $ruta);
-                    $parametros->id = $arrayRuta[ count($arrayRuta) - 1 ];
                     return $CursoController->obtener_unico( $parametros );
                 }
 
                 //Rutas Notas
+                $NotaController = new NotaController();
+                if( $ruta == "/nota" ){ //ruta: /nota/
+                    return $NotaController->obtener_notas( $parametros );
+                }
+                else if ( preg_match('/^\/(nota)\/[\d]+$/', $ruta) )//ruta: /nota/:id
+                {
+                    return $NotaController->obtener_unico( $parametros );
+                }
+
                 //echo "get";
                 break;
             case 'POST': //Rutas post	
@@ -58,14 +66,19 @@ try{
             default:
                 print_r(
                     json_encode( array(
-                        "mensaje" => "No se enconto un metodo valido"
+                        "mensaje" => "Metodo valido"
                     ))
                 );
+                http_response_code( 404 );
                 break;
         }
     }else{
-        $data=array("status"=>"error","message"=>"La peticion no contiene un metodo valido !! ");
-        echo json_encode($data);
+        print_r(
+            json_encode( array(
+                "mensaje" => "Error, pagina no encontrada"
+            ))
+        );
+        http_response_code( 404 );
     }
     
 }
