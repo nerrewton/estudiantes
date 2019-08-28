@@ -9,6 +9,7 @@ export const obtenerEstudiantes = ( ) => {
 }
 
 export const guardarEstudiante = ( datos ) => {
+    datos.id = undefined;
     const estudiante = fetch( process.env.REACT_APP_BACKEND_URL + "estudiante", {
         method: "POST",
         headers: {
