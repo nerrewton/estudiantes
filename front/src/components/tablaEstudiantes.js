@@ -5,24 +5,34 @@ import {
     Card,
     CardBody,
     CardHeader,
-    CardTitle
+    CardTitle,
+    Button
 } from 'reactstrap';
 
-import { obtenerEstudiantes } from '../services/estudianteService';
+import { obtenerEstudiantes, eliminarEstudiante } from '../services/estudianteService';
 
-const columns = [{
-    dataField: 'id',
-    text: 'Código',
-    sort: true
-  }, {
-    dataField: 'nombre',
-    text: 'Nombre',
-    sort: true
-  }, {
-    dataField: 'edad',
-    text: 'Edad',
-    sort: true
-  }];
+const columns = [
+    {
+        dataField: "tools",
+        text: "Herramientas",
+        sort: false
+    },
+    {
+        dataField: 'id',
+        text: 'Código',
+        sort: true
+    }, 
+    {
+        dataField: 'nombre',
+        text: 'Nombre',
+        sort: true
+    }, 
+    {
+        dataField: 'edad',
+        text: 'Edad',
+        sort: true
+    }
+];
 
 
 class TablaEstudiantes extends Component {
@@ -34,13 +44,41 @@ class TablaEstudiantes extends Component {
         this.obtenerEstudiantes();
     }
 
+    obtenerHerramientas( id ){
+        return (
+            <div>
+                <Button color="info">Editar</Button>
+                {' '}
+                <Button color="danger" onClick={ () => this.eliminar( id ) }>Eliminar</Button>
+            </div>
+        );
+    }
+
     obtenerEstudiantes(){
         obtenerEstudiantes()
         .then( response => {
+            if( response && response.length > 0 )
+            {
+                response = response.map( item => ({
+                    ...item,
+                    tools: this.obtenerHerramientas(item.id)
+                }));
+            }else
+            {
+                response = [];
+            }
+
             this.setState({
                 estudiantes: response
-            });
+            });        
         });        
+    }
+
+    eliminar( id ){
+        eliminarEstudiante( id )
+        .then( response => {
+            this.obtenerEstudiantes();
+        });
     }
 
     render() { 

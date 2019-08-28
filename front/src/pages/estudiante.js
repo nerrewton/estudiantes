@@ -46,7 +46,10 @@ class Estudiante extends Component {
         
         guardarEstudiante( this.state.estudiante )
         .then( response => {
-            console.log( response );
+            this.refs.tablaE.obtenerEstudiantes();
+            this.setState({
+                estudiante: EstudianteModel
+            });
         });
     }
 
@@ -55,7 +58,7 @@ class Estudiante extends Component {
             <div>
                 <h1>Estudiantes</h1>
                 <Row>
-                    <Col xs="12" sm="6">
+                    <Col xs="12" sm="4">
                         <Card>
                             <CardHeader>
                                 <CardTitle tag="h5">
@@ -65,7 +68,7 @@ class Estudiante extends Component {
                             <CardBody>
                                 <Form onSubmit={ this.guardarEstudiante }>
                                     <Row>
-                                        <Col xs="12" sm="6">
+                                        <Col xs="12">
                                             <FormGroup>
                                                 <Label>Nombre</Label>
                                                 <Input 
@@ -76,7 +79,7 @@ class Estudiante extends Component {
                                                 />
                                             </FormGroup>
                                         </Col>
-                                        <Col xs="12" sm="6">
+                                        <Col xs="12">
                                             <FormGroup>
                                                 <Label>Edad</Label>
                                                 <Input 
@@ -99,8 +102,8 @@ class Estudiante extends Component {
                             </CardBody>
                         </Card>
                     </Col>
-                    <Col xs="12" sm="6">
-                        <TablaEstudiantes />
+                    <Col xs="12" sm="8">
+                        <TablaEstudiantes ref="tablaE"/>
                     </Col>
                 </Row>
             </div>

@@ -107,6 +107,9 @@ try{
                     return $NotaController->eliminar( $parametros );
                 }
                 break;
+            case 'OPTIONS':
+                return $RespuestaHttpController->devolver(200, null );
+                break;
             default:
                 return $RespuestaHttpController->devolver(404, array("mensaje" => "Metodo no valido"));
                 break;

@@ -7,7 +7,7 @@ class RespuestaHttpController
         header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
         header("Allow: GET, POST, OPTIONS, PUT, DELETE");
         header("Content-Type: application/json");
-        print_r( json_encode($datos) );
-        http_response_code( 200 );
+        if( $datos ) print_r( json_encode($datos) );
+        http_response_code( $estado );
     }
 }
