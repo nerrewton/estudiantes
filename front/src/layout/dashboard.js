@@ -46,7 +46,9 @@ class Dashboard extends Component {
                         </Nav>
                     </Collapse>
                 </Navbar>
-                <Children />
+                <div className="container">
+                    <Children />
+                </div>
             </div>
          );
     }

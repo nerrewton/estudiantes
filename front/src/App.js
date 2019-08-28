@@ -18,7 +18,8 @@ function App() {
           Routes.map( (route, key ) => {
             return <Route 
                     key={key} 
-                    exact path={route.path} 
+                    exact 
+                    path={route.path} 
                     component={() => ( <Dashboard children={route.component} /> )}
                     />    
           })
