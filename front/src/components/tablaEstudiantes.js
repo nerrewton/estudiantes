@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import BootstrapTable from 'react-bootstrap-table-next';
+import paginationFactory from 'react-bootstrap-table2-paginator';
 import {
     Card,
     CardBody,
@@ -11,13 +12,16 @@ import { obtenerEstudiantes } from '../services/estudianteService';
 
 const columns = [{
     dataField: 'id',
-    text: 'Código'
+    text: 'Código',
+    sort: true
   }, {
     dataField: 'nombre',
-    text: 'Nombre'
+    text: 'Nombre',
+    sort: true
   }, {
     dataField: 'edad',
-    text: 'Edad'
+    text: 'Edad',
+    sort: true
   }];
 
 
@@ -31,7 +35,12 @@ class TablaEstudiantes extends Component {
     }
 
     obtenerEstudiantes(){
-        obtenerEstudiantes();
+        obtenerEstudiantes()
+        .then( response => {
+            this.setState({
+                estudiantes: response
+            });
+        });        
     }
 
     render() { 
@@ -43,7 +52,7 @@ class TablaEstudiantes extends Component {
                     </CardTitle>
                 </CardHeader>
                 <CardBody>
-                    <BootstrapTable keyField='id' data={ this.state.estudiantes } columns={ columns } />
+                    <BootstrapTable keyField='id' data={ this.state.estudiantes } columns={ columns } pagination={ paginationFactory() } />
                 </CardBody>
             </Card>
          );
