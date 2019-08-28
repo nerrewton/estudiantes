@@ -19,8 +19,6 @@ try{
     {
         $parametros = json_decode( file_get_contents("php://input") );
         if( !$parametros ) $parametros = new stdClass();
-        $arrayRuta = explode("/", $ruta);
-        $parametros->id = $arrayRuta[ count($arrayRuta) - 1 ];
         $EstudianteController = new EstudianteController();
         $CursoController = new CursoController();
         $NotaController = new NotaController();
@@ -28,6 +26,9 @@ try{
         switch ( $metodo ) 
         {
             case 'GET': //Rutas get
+                $arrayRuta = explode("/", $ruta);
+                $parametros->id = $arrayRuta[ count($arrayRuta) - 1 ];
+
                 //Rutas Estudiantes
                 if( $ruta == "/estudiante" ){ //ruta: /estudiante/
                     return $EstudianteController->obtener_estudiantes( $parametros );
@@ -63,21 +64,47 @@ try{
                 }
 
                 //Rutas Cursos
-                if( $ruta == "/curso" ){ //ruta: /estudiante/
+                if( $ruta == "/curso" ){ //ruta: /curso/
                     return $CursoController->guardar( $parametros );
                 }
                 
                 //Rutas Notas
-                if( $ruta == "/nota" ){ //ruta: /estudiante/
+                if( $ruta == "/nota" ){ //ruta: /nota/
                     return $NotaController->guardar( $parametros );
                 }
-                
+
                 break;
             case 'PUT': //Rutas put					
-                echo "put";
+                //Rutas Estudiantes
+                if( $ruta == "/estudiante" ){ //ruta: /estudiante/
+                    return $EstudianteController->actualizar( $parametros );
+                }
+
+                //Rutas Cursos
+                if( $ruta == "/curso" ){ //ruta: /curso/
+                    return $CursoController->actualizar( $parametros );
+                }
+                
+                //Rutas Notas
+                if( $ruta == "/nota" ){ //ruta: /nota/
+                    return $NotaController->actualizar( $parametros );
+                }
                 break;
             case 'DELETE': //Rutas delete
-                echo "delete";
+                //Rutas Estudiantes
+                if( $ruta == "/estudiante" ){ //ruta: /estudiante/
+                    return $EstudianteController->eliminar( $parametros );
+                }
+
+                //Rutas Cursos
+                if( $ruta == "/curso" ){ //ruta: /curso/
+                    return $CursoController->eliminar( $parametros );
+                }
+                
+                //Rutas Notas
+                if( $ruta == "/nota" ){ //ruta: /nota/
+                    return $NotaController->eliminar( $parametros );
+                }
                 break;
             default:
                 return $RespuestaHttpController->devolver(404, array("mensaje" => "Metodo valido"));

@@ -237,8 +237,8 @@ class Conexion
      * Content: convierte un arreglo en un objeto del modelo
      * @return object
      */
-    public static function obtener_objeto( $parametros = array() ){
-        $obj = new self();
+    public static function obtener_objeto( $model, $parametros = array() ){
+        $obj = $model;
         if( count( $parametros ) > 0 )
         {
             foreach( $parametros[0] as $llave => $valor ){

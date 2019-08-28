@@ -28,7 +28,7 @@ class NotaController extends RespuestaHttpController
         $objNota = new Nota();
         $nota = $objNota->obtener_uno( $id );
 
-        if( !$nota ) return $this->devolver( 400, array("mensaje" => "No fue posible obtener resultados") );
+        if( !$nota ) return $this->devolver( 200, array("mensaje" => "El registro no existe") );
 
         unset( $nota->conexion );
         return $this->devolver(200, $nota );
@@ -52,8 +52,8 @@ class NotaController extends RespuestaHttpController
         
 
         //Valida si el curso existe
-        $objCurso = new Curso();
-        if( !$objCurso->obtener_uno( $req->id_curso ) )
+        $objNota = new Curso();
+        if( !$objNota->obtener_uno( $req->id_curso ) )
         {
             return $this->devolver( 400, array("mensaje" => "El curso no existe") );
         }
@@ -67,5 +67,53 @@ class NotaController extends RespuestaHttpController
 
         unset( $objNota->conexion );
         return $this->devolver(200, $objNota );
+    }
+
+    public function actualizar( $req )
+    {
+        if( !$req ) return $this->devolver( 400, array("mensaje" => "No se enviaron los datos") );
+
+        if( !isset($req->id) || !isset($req->nombre_evaluacion) || !isset($req->id_estudiante) || !isset($req->id_curso) || !isset($req->calificacion) )
+        {
+            return $this->devolver( 400, array("mensaje" => "No se enviaron todos los datos") );
+        }
+
+        //Obtiene nota
+        $id = $req->id;
+        $objNota = new Nota();
+        if( !$nota = $objNota->obtener_uno( $id ) )
+        {
+            return $this->devolver( 400, array("mensaje" => "La nota no existe") );
+        }
+
+        $nota->nombre_evaluacion = $req->nombre_evaluacion;
+        $nota->id_estudiante = $req->id_estudiante;
+        $nota->id_curso = $req->id_curso;
+        $nota->calificacion = $req->calificacion;
+        $nota->actualizar();
+
+        unset( $nota->conexion );
+        return $this->devolver( 200, $nota );
+    }
+
+    public function eliminar( $req )
+    {
+        if( !$req ) return $this->devolver( 400, array("mensaje" => "No se enviaron los datos") );
+
+        if( !isset($req->id) )
+        {
+            return $this->devolver( 400, array("mensaje" => "No se enviaron todos los datos") );
+        }
+
+        //Obtiene nota
+        $id = $req->id;
+        $objNota = new Nota();
+        if( !$nota = $objNota->obtener_uno( $id ) )
+        {
+            return $this->devolver( 400, array("mensaje" => "La nota no existe") );
+        }
+
+        $nota->eliminar();
+        return $this->devolver( 200, array("mensaje" => "Nota eliminado") );
     }
 }

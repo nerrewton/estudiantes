@@ -27,7 +27,7 @@ class Estudiante extends Conexion{
             "id = '{$id}'"
         ));
 
-        return $this->obtener_objeto( $estudiantes );
+        return $this->obtener_objeto( $this, $estudiantes );
     }
 
 }

@@ -29,7 +29,7 @@ class Nota extends Conexion{
             "id = '{$id}'"
         ));
 
-        return $this->obtener_objeto( $notas );
+        return $this->obtener_objeto( $this, $notas );
     }
 
 }
