@@ -9,11 +9,12 @@ include_once('./controllers/CursoController.class.php');
 include_once('./controllers/NotaController.class.php');
 include_once('./controllers/RespuestaHttpController.class.php');
 
+$RespuestaHttpController = new RespuestaHttpController();
+
 try{
     $metodo = $_SERVER["REQUEST_METHOD"];
     $ruta = $_SERVER['REQUEST_URI'];
     $ruta = substr( $ruta, strpos( $ruta, "/api") +  4 );
-    $RespuestaHttpController = new RespuestaHttpController();
     
     if( isset($metodo) )
     {
@@ -107,7 +108,7 @@ try{
                 }
                 break;
             default:
-                return $RespuestaHttpController->devolver(404, array("mensaje" => "Metodo valido"));
+                return $RespuestaHttpController->devolver(404, array("mensaje" => "Metodo no valido"));
                 break;
         }
 
@@ -118,5 +119,5 @@ try{
     
 }
 catch(Exception $e) {
-    echo 'Caught exception: ',  $e->getMessage(), "\n";
+    return $RespuestaHttpController->devolver(500, array("mensaje" => "Error en el servidor"));
 }
