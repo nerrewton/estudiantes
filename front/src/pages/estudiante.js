@@ -15,10 +15,11 @@ import {
 
 import TablaEstudiantes from '../components/tablaEstudiantes';
 import EstudianteModel from '../models/EstudianteModel';
-import { guardarEstudiante } from '../services/estudianteService';
+import { guardarEstudiante, obtenerEstudiantes as obtenerEstudianteUnico } from '../services/estudianteService';
 
 class Estudiante extends Component {
     state = {
+        textoForm: "Crear",
         estudiante: EstudianteModel
     }
 
@@ -27,6 +28,8 @@ class Estudiante extends Component {
 
         this.cambiaVariable = this.cambiaVariable.bind( this );
         this.guardarEstudiante = this.guardarEstudiante.bind( this );
+        this.obtenerEstudiante = this.obtenerEstudiante.bind( this );
+        this.habilitarCrear = this.habilitarCrear.bind( this );
     }
 
     cambiaVariable( element ){
@@ -53,6 +56,33 @@ class Estudiante extends Component {
         });
     }
 
+    obtenerEstudiante( id ){
+        obtenerEstudianteUnico( id )
+        .then( response => {
+            if( response && response.id ){
+                const { id, nombre, edad } = response;
+                this.setState({
+                    textoForm: "Editar",
+                    estudiante: {
+                        ...this.state.estudiante,
+                        id,
+                        nombre,
+                        edad                        
+                    }
+                });
+
+            }
+        });
+    }
+
+    habilitarCrear(){
+        console.log( EstudianteModel );
+        this.setState({
+            estudiante: EstudianteModel,
+            textoForm: "Crear"
+        });
+    }
+
     render() { 
         return ( 
             <div>
@@ -62,7 +92,14 @@ class Estudiante extends Component {
                         <Card>
                             <CardHeader>
                                 <CardTitle tag="h5">
-                                    Crear un estudiante
+                                    {this.state.textoForm} un estudiante
+                                    {this.state.textoForm === "Editar" ? 
+                                    <Button 
+                                    color="warning" 
+                                    className="float-right text-white"
+                                    onClick={this.habilitarCrear}
+                                    >Crear nuevo</Button>
+                                    : null}
                                 </CardTitle>
                             </CardHeader>
                             <CardBody>
@@ -103,7 +140,7 @@ class Estudiante extends Component {
                         </Card>
                     </Col>
                     <Col xs="12" sm="8">
-                        <TablaEstudiantes ref="tablaE"/>
+                        <TablaEstudiantes ref="tablaE" editarE={ this.obtenerEstudiante }/>
                     </Col>
                 </Row>
             </div>

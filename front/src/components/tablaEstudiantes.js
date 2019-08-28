@@ -47,7 +47,7 @@ class TablaEstudiantes extends Component {
     obtenerHerramientas( id ){
         return (
             <div>
-                <Button color="info">Editar</Button>
+                <Button color="info" onClick={ () => this.props.editarE( id ) }>Editar</Button>
                 {' '}
                 <Button color="danger" onClick={ () => this.eliminar( id ) }>Eliminar</Button>
             </div>
