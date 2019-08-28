@@ -7,23 +7,28 @@
 include_once('./controllers/EstudianteController.class.php');
 include_once('./controllers/CursoController.class.php');
 include_once('./controllers/NotaController.class.php');
+include_once('./controllers/RespuestaHttpController.class.php');
 
 try{
     $metodo = $_SERVER["REQUEST_METHOD"];
     $ruta = $_SERVER['REQUEST_URI'];
     $ruta = substr( $ruta, strpos( $ruta, "/api") +  4 );
+    $RespuestaHttpController = new RespuestaHttpController();
     
     if( isset($metodo) )
     {
         $parametros = json_decode( file_get_contents("php://input") );
+        if( !$parametros ) $parametros = new stdClass();
         $arrayRuta = explode("/", $ruta);
         $parametros->id = $arrayRuta[ count($arrayRuta) - 1 ];
+        $EstudianteController = new EstudianteController();
+        $CursoController = new CursoController();
+        $NotaController = new NotaController();
 
         switch ( $metodo ) 
         {
             case 'GET': //Rutas get
                 //Rutas Estudiantes
-                $EstudianteController = new EstudianteController();
                 if( $ruta == "/estudiante" ){ //ruta: /estudiante/
                     return $EstudianteController->obtener_estudiantes( $parametros );
                 }
@@ -33,7 +38,6 @@ try{
                 }
 
                 //Rutas Cursos
-                $CursoController = new CursoController();
                 if( $ruta == "/curso" ){ //ruta: /curso/
                     return $CursoController->obtener_cursos( $parametros );
                 }
@@ -43,7 +47,6 @@ try{
                 }
 
                 //Rutas Notas
-                $NotaController = new NotaController();
                 if( $ruta == "/nota" ){ //ruta: /nota/
                     return $NotaController->obtener_notas( $parametros );
                 }
@@ -52,10 +55,23 @@ try{
                     return $NotaController->obtener_unico( $parametros );
                 }
 
-                //echo "get";
                 break;
             case 'POST': //Rutas post	
-                echo "post";
+                //Rutas Estudiantes
+                if( $ruta == "/estudiante" ){ //ruta: /estudiante/
+                    return $EstudianteController->guardar( $parametros );
+                }
+
+                //Rutas Cursos
+                if( $ruta == "/curso" ){ //ruta: /estudiante/
+                    return $CursoController->guardar( $parametros );
+                }
+                
+                //Rutas Notas
+                if( $ruta == "/nota" ){ //ruta: /estudiante/
+                    return $NotaController->guardar( $parametros );
+                }
+                
                 break;
             case 'PUT': //Rutas put					
                 echo "put";
@@ -64,21 +80,13 @@ try{
                 echo "delete";
                 break;
             default:
-                print_r(
-                    json_encode( array(
-                        "mensaje" => "Metodo valido"
-                    ))
-                );
-                http_response_code( 404 );
+                return $RespuestaHttpController->devolver(404, array("mensaje" => "Metodo valido"));
                 break;
         }
+
+        return $RespuestaHttpController->devolver(404, array("mensaje" => "Ruta no valida"));
     }else{
-        print_r(
-            json_encode( array(
-                "mensaje" => "Error, pagina no encontrada"
-            ))
-        );
-        http_response_code( 404 );
+        return $RespuestaHttpController->devolver(404, array("mensaje" => "Error, pagina no encontrada"));
     }
     
 }

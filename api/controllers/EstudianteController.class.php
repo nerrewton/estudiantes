@@ -31,4 +31,22 @@ class EstudianteController extends RespuestaHttpController
         unset( $estudiante->conexion );
         return $this->devolver(200, $estudiante );
     }
+
+    public function guardar( $req )
+    {
+        if( !$req ) return $this->devolver( 400, array("mensaje" => "No se enviaron los datos") );
+
+        if( !isset($req->nombre) || !isset($req->edad) )
+        {
+            return $this->devolver( 400, array("mensaje" => "No se enviaron todos los datos") );
+        }
+
+        $objEstudiante = new Estudiante();
+        $objEstudiante->nombre = $req->nombre;
+        $objEstudiante->edad = $req->edad;
+        $objEstudiante->crear();
+
+        unset( $objEstudiante->conexion );
+        return $this->devolver(200, $objEstudiante );
+    }
 }

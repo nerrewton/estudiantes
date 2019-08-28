@@ -15,7 +15,7 @@ class CursoController extends RespuestaHttpController
         $cursos = $objCurso->obtener_todos();
 
         if( !isset($cursos) ) $this->devolver( 400, array("mensaje" => "No fue posible obtener resultados") );
-
+ 
         $this->devolver( 200, $cursos );
     }
 
@@ -30,5 +30,22 @@ class CursoController extends RespuestaHttpController
 
         unset( $curso->conexion );
         return $this->devolver(200, $curso );
+    }
+
+    public function guardar( $req )
+    {
+        if( !$req ) return $this->devolver( 400, array("mensaje" => "No se enviaron los datos") );
+
+        if( !isset($req->nombre) )
+        {
+            return $this->devolver( 400, array("mensaje" => "No se enviaron todos los datos") );
+        }
+
+        $objCurso = new Curso();
+        $objCurso->nombre = $req->nombre;
+        $objCurso->crear();
+
+        unset( $objCurso->conexion );
+        return $this->devolver(200, $objCurso );
     }
 }

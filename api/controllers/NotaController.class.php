@@ -6,6 +6,8 @@
  */
 ini_set("display_errors", true);
 include_once('./models/Nota.class.php');
+include_once('./models/Estudiante.class.php');
+include_once('./models/Curso.class.php');
 include_once('./controllers/RespuestaHttpController.class.php');
 class NotaController extends RespuestaHttpController
 {
@@ -30,5 +32,40 @@ class NotaController extends RespuestaHttpController
 
         unset( $nota->conexion );
         return $this->devolver(200, $nota );
+    }
+
+    public function guardar( $req )
+    {
+        if( !$req ) return $this->devolver( 400, array("mensaje" => "No se enviaron los datos") );
+
+        if( !isset($req->nombre_evaluacion) || !isset($req->id_estudiante) || !isset($req->id_curso) || !isset($req->calificacion) )
+        {
+            return $this->devolver( 400, array("mensaje" => "No se enviaron todos los datos") );
+        }
+
+        //Valida si el estudiante existe
+        $objEstudiante = new Estudiante();
+        if( !$objEstudiante->obtener_uno( $req->id_estudiante ) )
+        {
+            return $this->devolver( 400, array("mensaje" => "El estudiante no existe") );
+        }
+        
+
+        //Valida si el curso existe
+        $objCurso = new Curso();
+        if( !$objCurso->obtener_uno( $req->id_curso ) )
+        {
+            return $this->devolver( 400, array("mensaje" => "El curso no existe") );
+        }
+        
+        $objNota = new Nota();
+        $objNota->nombre_evaluacion = $req->nombre_evaluacion;
+        $objNota->id_estudiante = $req->id_estudiante;
+        $objNota->id_curso = $req->id_curso;
+        $objNota->calificacion = $req->calificacion;
+        $objNota->crear();
+
+        unset( $objNota->conexion );
+        return $this->devolver(200, $objNota );
     }
 }
