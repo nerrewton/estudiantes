@@ -1,25 +1,31 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { 
+  BrowserRouter,
+  Route,
+  Switch 
+} from 'react-router-dom';
+import Routes from './routes';
+import Inicio from './pages/inicio';
+import Page404 from './pages/page404';
+import Dashboard from './layout/dashboard';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route exact path="/" component={() => ( <Dashboard children={Inicio} /> )}/>
+        {
+          Routes.map( (route, key ) => {
+            return <Route 
+                    key={key} 
+                    exact path={route.path} 
+                    component={() => ( <Dashboard children={route.component} /> )}
+                    />    
+          })
+        }
+        <Route component={Page404}/>
+      </Switch>
+    </BrowserRouter>
   );
 }
 
