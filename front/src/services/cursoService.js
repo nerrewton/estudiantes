@@ -1,32 +1,32 @@
-export const obtenerEstudiantes = ( id = null ) => {
+export const obtenerCursos = ( id = null ) => {
 
     if( id ){
-        const estudiante = fetch( process.env.REACT_APP_BACKEND_URL + "estudiante/" + id )
+        const curso = fetch( process.env.REACT_APP_BACKEND_URL + "curso/" + id )
         .then( response => response.json() )
         .catch( error => {
             console.error( error );
         });
 
-        return estudiante;
+        return curso;
     }
 
-    const estudiantes = fetch( process.env.REACT_APP_BACKEND_URL + "estudiante" )
+    const cursos = fetch( process.env.REACT_APP_BACKEND_URL + "curso" )
     .then( response => response.json() )
     .catch( error => {
         console.error( error );
     });
 
-    return estudiantes;
+    return cursos;
 }
 
-export const guardarEstudiante = ( datos ) => {
+export const guardarCurso = ( datos ) => {
     let method = "POST";
     if( !datos.id ){
         datos.id = undefined;
     }else{
         method = "PUT";
     }
-    const estudiante = fetch( process.env.REACT_APP_BACKEND_URL + "estudiante", {
+    const curso = fetch( process.env.REACT_APP_BACKEND_URL + "curso", {
         method,
         headers: {
             'Accept': 'application/json',
@@ -39,12 +39,12 @@ export const guardarEstudiante = ( datos ) => {
         console.error( error );
     });
 
-    return estudiante;
+    return curso;
 }
 
-export const eliminarEstudiante = ( id ) => {
+export const eliminarCurso = ( id ) => {
 
-    const estudiante = fetch( process.env.REACT_APP_BACKEND_URL + "estudiante", {
+    const curso = fetch( process.env.REACT_APP_BACKEND_URL + "curso", {
         method: "DELETE",
         headers: {
             'Accept': 'application/json',
@@ -57,5 +57,5 @@ export const eliminarEstudiante = ( id ) => {
         console.error( error );
     });
 
-    return estudiante;
+    return curso;
 }
