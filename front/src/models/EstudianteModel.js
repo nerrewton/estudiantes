@@ -1,7 +1,7 @@
 const EstudianteModel = {
-    id: null,
+    id: "",
     nombre: "",
-    edad: null
+    edad: ""
 };
 
 export default EstudianteModel;

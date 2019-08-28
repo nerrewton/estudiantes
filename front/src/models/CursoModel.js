@@ -1,5 +1,5 @@
 const CursoModel = {
-    id: null,
+    id: "",
     nombre: ""
 };
 

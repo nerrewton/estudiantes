@@ -8,6 +8,19 @@ export const obtenerEstudiantes = ( ) => {
     return estudiantes;
 }
 
-export const guardarEstudiante = ( estudiante ) => {
-    console.log( estudiante );
+export const guardarEstudiante = ( datos ) => {
+    const estudiante = fetch( process.env.REACT_APP_BACKEND_URL + "estudiante", {
+        method: "POST",
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify( datos )
+    })
+    .then( response => response.json() )
+    .catch( error => {
+        console.error( error );
+    });
+
+    return estudiante;
 }

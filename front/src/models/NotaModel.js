@@ -1,9 +1,9 @@
 const NotaModel = {
-    id: null,
-    id_estudiante: null,
-    id_curso: null,
+    id: "",
+    id_estudiante: "",
+    id_curso: "",
     nombre_evaluacion: "",
-    calificacion: null
+    calificacion: ""
 };
 
 export default NotaModel;
