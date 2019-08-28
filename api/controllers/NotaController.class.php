@@ -2,7 +2,7 @@
 /**
  * Created by: Rene Arteaga
  * Date: 2019-08-26
- * Content: Controlador del modelo Curso
+ * Content: Controlador del modelo Nota
  */
 ini_set("display_errors", true);
 include_once('./models/Nota.class.php');
