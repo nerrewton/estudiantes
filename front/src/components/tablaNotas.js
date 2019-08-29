@@ -18,6 +18,12 @@ const columns = [
         sort: false
     },
     {
+        dataField: 'id',
+        text: 'Id nota',
+        hidden: true,
+        sort: true
+    }, 
+    {
         dataField: 'id_estudiante',
         text: 'Código estudiante',
         sort: true
@@ -84,7 +90,7 @@ class TablaNotas extends Component {
             }
 
             this.setState({
-                cursos: response
+                notas: response
             });        
         });        
     }

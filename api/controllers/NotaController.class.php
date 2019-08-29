@@ -25,9 +25,10 @@ class NotaController extends RespuestaHttpController
             $estudiante = $objEstudiante->obtener_uno( $nota['id_estudiante'] );
             $curso = $objCurso->obtener_uno( $nota['id_curso'] );
 
-            $notasCompletas = $nota;
-            $notasCompletas['nombre_estudiante'] = $estudiante->nombre;
-            $notasCompletas['nombre_curso'] = $curso->nombre;
+            $nota['nombre_estudiante'] = $estudiante->nombre;
+            $nota['nombre_curso'] = $curso->nombre;
+
+            $notasCompletas[] = $nota;
         }
 
         $this->devolver( 200, $notasCompletas );
