@@ -5,7 +5,7 @@ Administrador de cursos es una aplicación que te permite crear cursos, estudian
 Esta aplicación fue creada para la prueba de la empresa **Integro**
 
 ## Restricciones:
-No tiene sistema de logue de usuarios
+No tiene sistema de logueo de usuarios
 
 ## Cómo se usa?
 - **Estudiantes**: Permite ver, editar, crear y eliminar estudiantes.
