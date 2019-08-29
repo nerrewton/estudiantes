@@ -1,10 +1,10 @@
 ## Administrador de cursos
 Administrador de cursos es una aplicación que te permite crear cursos, estudiantes y asignarles notas.
 
-##Nota:
+## Nota:
 Esta aplicación fue creada para la prueba de la empresa **Integro**
 
-##Restricciones:
+## Restricciones:
 No tiene sistema de logue de usuarios
 
 ## Cómo se usa?
