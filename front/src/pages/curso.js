@@ -51,7 +51,8 @@ class Curso extends Component {
         .then( response => {
             this.refs.tablaE.obtenerCursos();
             this.setState({
-                curso: CursoModel
+                curso: CursoModel,
+                textoForm: "Crear"
             });
         });
     }

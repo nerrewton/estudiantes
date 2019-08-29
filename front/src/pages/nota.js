@@ -74,7 +74,8 @@ class Nota extends Component {
         .then( response => {
             this.refs.tablaE.obtenerNotas();
             this.setState({
-                nota: NotaModel
+                nota: NotaModel,
+                textoForm: "Crear"
             });
         });
     }
@@ -83,13 +84,16 @@ class Nota extends Component {
         obtenerNotaUnico( id )
         .then( response => {
             if( response && response.id ){
-                const { id, nombre } = response;
+                const { id, id_curso, id_estudiante, nombre_evaluacion, calificacion } = response;
                 this.setState({
                     textoForm: "Editar",
                     nota: {
                         ...this.state.nota,
                         id,
-                        nombre                   
+                        id_curso,
+                        id_estudiante,
+                        nombre_evaluacion,
+                        calificacion                   
                     }
                 });
 

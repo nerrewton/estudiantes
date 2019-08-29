@@ -51,7 +51,8 @@ class Estudiante extends Component {
         .then( response => {
             this.refs.tablaE.obtenerEstudiantes();
             this.setState({
-                estudiante: EstudianteModel
+                estudiante: EstudianteModel,
+                textoForm: "Crear"
             });
         });
     }
