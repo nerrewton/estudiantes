@@ -6,6 +6,7 @@
  */
 ini_set("display_errors", true);
 include_once('./models/Curso.class.php');
+include_once('./models/Nota.class.php');
 include_once('./controllers/RespuestaHttpController.class.php');
 class CursoController extends RespuestaHttpController
 {
@@ -88,6 +89,14 @@ class CursoController extends RespuestaHttpController
         if( !$curso = $objCurso->obtener_uno( $id ) )
         {
             return $this->devolver( 400, array("mensaje" => "El curso no existe") );
+        }
+
+        //revisa que no este asociado a una nota
+        $objNota = new Nota();
+        $notas = $objNota->ejecutar_select("select * from notas", array("id_curso = '{$id}'") );
+        if( isset($notas) && count( $notas ) > 0  )
+        {
+            return $this->devolver( 400, array("mensaje" => "El curso esta asociado a notas activas") );
         }
 
         $curso->eliminar();

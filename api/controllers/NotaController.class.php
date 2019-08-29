@@ -18,7 +18,19 @@ class NotaController extends RespuestaHttpController
 
         if( !isset($notas) ) $this->devolver( 400, array("mensaje" => "No fue posible obtener resultados") );
 
-        $this->devolver( 200, $notas );
+        $notasCompletas = array();
+        foreach( $notas as $nota ){
+            $objEstudiante = new Estudiante();
+            $objCurso = new Curso();
+            $estudiante = $objEstudiante->obtener_uno( $nota['id_estudiante'] );
+            $curso = $objCurso->obtener_uno( $nota['id_curso'] );
+
+            $notasCompletas = $nota;
+            $notasCompletas['nombre_estudiante'] = $estudiante->nombre;
+            $notasCompletas['nombre_curso'] = $curso->nombre;
+        }
+
+        $this->devolver( 200, $notasCompletas );
     }
 
     public function obtener_unico( $req )
@@ -52,8 +64,8 @@ class NotaController extends RespuestaHttpController
         
 
         //Valida si el curso existe
-        $objNota = new Curso();
-        if( !$objNota->obtener_uno( $req->id_curso ) )
+        $objCurso = new Curso();
+        if( !$objCurso->obtener_uno( $req->id_curso ) )
         {
             return $this->devolver( 400, array("mensaje" => "El curso no existe") );
         }
