@@ -77,7 +77,6 @@ class Estudiante extends Component {
     }
 
     habilitarCrear(){
-        console.log( EstudianteModel );
         this.setState({
             estudiante: EstudianteModel,
             textoForm: "Crear"
