@@ -77,6 +77,7 @@ class TablaEstudiantes extends Component {
     eliminar( id ){
         eliminarEstudiante( id )
         .then( response => {
+            alert( response.mensaje );
             this.obtenerEstudiantes();
         });
     }

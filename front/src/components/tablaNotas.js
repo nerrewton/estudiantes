@@ -98,6 +98,7 @@ class TablaNotas extends Component {
     eliminar( id ){
         eliminarNota( id )
         .then( response => {
+            alert( response.mensaje );
             this.obtenerNotas();
         });
     }

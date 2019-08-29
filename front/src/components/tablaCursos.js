@@ -72,6 +72,7 @@ class TablaCursos extends Component {
     eliminar( id ){
         eliminarCurso( id )
         .then( response => {
+            alert( response.mensaje );
             this.obtenerCursos();
         });
     }
